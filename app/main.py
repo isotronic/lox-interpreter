@@ -69,6 +69,20 @@ def scan_file(contents):
                 line_number += 1
             else:
                 print("SLASH / null")
+        elif char == "\"":
+            start = i
+            i += 1
+            while i < len(contents) and contents[i] != "\"":
+                if contents[i] == "\n":
+                    line_number += 1
+                i += 1
+            
+            if i < len(contents):
+                string_value = contents[start+1:i]
+                print(f"STRING \"{string_value}\" {string_value}")
+            else:
+                print(f"[line {line_number}] Error: Unterminated string", file=sys.stderr)
+                has_error = True
         else:
             print(f"[line {line_number}] Error: Unexpected character: {char}", file=sys.stderr)
             has_error = True
