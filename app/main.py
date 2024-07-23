@@ -2,11 +2,23 @@ import sys
 import pathlib
 
 def scan_file(contents):
+    """
+    Scans a file and prints out tokens based on the contents of the file.
+
+    Parameters:
+        contents (str): The contents of the file to be scanned.
+
+    Returns:
+        bool: True if there was an error during the scanning process, False otherwise.
+    """
     line_number = 1
     has_error = False
     i = 0
     
     def peek_next_char():
+        """
+        A function that returns the next character in the content if available.
+        """
         return contents[i + 1] if i < len(contents) - 1 else None
     
     while i < len(contents):
@@ -89,13 +101,19 @@ def scan_file(contents):
             while i < len(contents) and (contents[i].isdigit() or (contents[i] == "." and not has_decimal)):
                 if contents[i] == ".":
                     has_decimal = True
+                    if i + 1 >= len(contents) or not contents[i+1].isdigit():
+                        print(f"NUMBER {contents[start:i]} {contents[start:i]}")
+                        break
                 i += 1
-            if i < len(contents) and contents[i].isalpha():
-                print(f"[line {line_number}] Error: Invalid number format.", file=sys.stderr)
-                has_error = True
+            if has_decimal and (i < len(contents) and not contents[i].isdigit()):
+                i = start + contents[start:i].find(".")
             else:
-                number = contents[start:i]
-                print(f"NUMBER {number} {number}")
+                if i < len(contents) and contents[i].isalpha():
+                    print(f"[line {line_number}] Error: Invalid number format.", file=sys.stderr)
+                    has_error = True
+                else:
+                    number = contents[start:i]
+                    print(f"NUMBER {number} {number}")
         else:
             print(f"[line {line_number}] Error: Unexpected character: {char}", file=sys.stderr)
             has_error = True
@@ -105,6 +123,14 @@ def scan_file(contents):
     return has_error
 
 def main():
+    """
+    The main function of the program.
+
+    This function is responsible for parsing command line arguments and executing the tokenization process.
+
+    Raises:
+        SystemExit: If the command line arguments are invalid or the command is unknown.
+    """
     print("Logs from your program will appear here!", file=sys.stderr)
 
     if len(sys.argv) < 3:
