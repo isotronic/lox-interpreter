@@ -30,6 +30,20 @@ def scan_file(contents):
             print("STAR * null")
         elif char == ".":
             print("DOT . null")
+        elif char == "=":
+            print("EQUAL = null")
+        elif char == "==":
+            print("EQUAL_EQUAL == null")
+        elif char == "<":
+            print("LESS < null")
+        elif char == ">":
+            print("GREATER > null")
+        elif char == "<=":
+            print("LESS_EQUAL <= null")
+        elif char == ">=":
+            print("GREATER_EQUAL >= null")
+        elif char == "!=":
+            print("BANG_EQUAL != null")
         else:
             print(f"[line {line_number}] Error: Unexpected character: {char}", file=sys.stderr)
             has_error = True
