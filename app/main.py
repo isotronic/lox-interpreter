@@ -111,6 +111,7 @@ def scan_file(contents):
             number = contents[start:i]
             print(f"NUMBER {number.rstrip('.')} {float(number)}")
             if number.endswith('.') and (i >= len(contents) or not contents[i].isdigit()):
+                print("DOT . null")
                 i += 1
             elif i < len(contents) and contents[i] == ".":
                 print("DOT . null")
