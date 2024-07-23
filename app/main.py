@@ -104,12 +104,16 @@ def scan_file(contents):
             i += 1
             while i < len(contents) and (contents[i].isdigit() or (contents[i] == '.' and not has_decimal)):
                 if contents[i] == ".":
+                    if has_decimal:
+                        break
                     has_decimal = True
                 i += 1
             number = contents[start:i]
             print(f"NUMBER {number.rstrip('.')} {float(number)}")
             if number.endswith('.') and (i >= len(contents) or not contents[i].isdigit()):
                 i += 1
+            elif i < len(contents) and contents[i] == ".":
+                print("DOT . null")
         else:
             print(f"[line {line_number}] Error: Unexpected character: {char}", file=sys.stderr)
             has_error = True
