@@ -11,8 +11,6 @@ def scan_file(contents):
             print("LEFT_BRACE { null")
         elif char == "}":
             print("RIGHT_BRACE } null")
-        else:
-            print(f"ERROR {char} null")
 
 def main():
     print("Logs from your program will appear here!", file=sys.stderr)
@@ -29,13 +27,9 @@ def main():
         exit(1)
 
     file_contents = pathlib.Path(filename).read_text()
-
-    if file_contents:
-        scan_file(file_contents)
-        print("EOF  null")
-    else:
-        print("File is empty", file=sys.stderr)
-        exit(0)
+  
+    scan_file(file_contents)
+    print("EOF  null")
 
 
 if __name__ == "__main__":
