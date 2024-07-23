@@ -83,6 +83,19 @@ def scan_file(contents):
             else:
                 print(f"[line {line_number}] Error: Unterminated string.", file=sys.stderr)
                 has_error = True
+        elif char.isdigit():
+            start = i
+            has_decimal = False
+            while i < len(contents) and (contents[i].isdigit() or (contents[i] == "." and not has_decimal)):
+                if contents[i] == ".":
+                    has_decimal = True
+                i += 1
+            if i < len(contents) and contents[i].isalpha():
+                print(f"[line {line_number}] Error: Invalid number format.", file=sys.stderr)
+                has_error = True
+            else:
+                number = int(contents[start:i])
+                print(f"NUMBER {number} {number}")
         else:
             print(f"[line {line_number}] Error: Unexpected character: {char}", file=sys.stderr)
             has_error = True
