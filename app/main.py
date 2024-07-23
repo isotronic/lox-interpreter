@@ -11,6 +11,7 @@ def scan_file(contents):
     Returns:
         bool: True if there was an error during the scanning process, False otherwise.
     """
+    RESERVED_WORDS = ["and", "class", "else", "false", "for", "fun", "if", "nil", "or", "print", "return", "super", "this", "true", "var", "while"]
     line_number = 1
     has_error = False
     i = 0
@@ -121,7 +122,10 @@ def scan_file(contents):
             while i < len(contents) and (contents[i].isalpha() or contents[i].isdigit() or contents[i] == "_"):
                 i += 1
             name = contents[start:i]
-            print(f"IDENTIFIER {name} null")
+            if name in RESERVED_WORDS:
+                print(f"{name.upper()} {name} null")
+            else:
+                print(f"IDENTIFIER {name} null")
             i -= 1
         else:
             print(f"[line {line_number}] Error: Unexpected character: {char}", file=sys.stderr)
