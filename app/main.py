@@ -56,8 +56,8 @@ def main():
     
     if has_error:
         exit(65)
-    else:
-        print("EOF  null")
+    
+    print("EOF  null")
 
 
 if __name__ == "__main__":
