@@ -1,6 +1,14 @@
 import sys
 import pathlib
 
+def scan_file(contents):
+    for char in contents:
+        if char == "(":
+            print("LEFT_PAREN ( null")
+        elif char == ")":
+            print("RIGHT_PAREN ) null")
+        else:
+            print(f"ERROR {char} null")
 
 def main():
     print("Logs from your program will appear here!", file=sys.stderr)
@@ -19,7 +27,8 @@ def main():
     file_contents = pathlib.Path(filename).read_text()
 
     if file_contents:
-        raise NotImplementedError("Scanner not implemented")
+        scan_file(file_contents)
+        print("EOF  null")
     else:
         print("EOF  null") # Placeholder, remove this line when implementing the scanner
 
