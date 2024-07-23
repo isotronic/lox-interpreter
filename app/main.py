@@ -7,6 +7,10 @@ def scan_file(contents):
             print("LEFT_PAREN ( null")
         elif char == ")":
             print("RIGHT_PAREN ) null")
+        elif char == "{":
+            print("LEFT_BRACE { null")
+        elif char == "}":
+            print("RIGHT_BRACE } null")
         else:
             print(f"ERROR {char} null")
 
@@ -30,7 +34,7 @@ def main():
         scan_file(file_contents)
         print("EOF  null")
     else:
-        print("EOF  null") # Placeholder, remove this line when implementing the scanner
+        raise ValueError("File is empty")
 
 
 if __name__ == "__main__":
