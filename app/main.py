@@ -34,7 +34,7 @@ def scan_file(contents):
             print(f"[line {line_number}] Error: Unexpected character: {char}", file=sys.stderr)
             has_error = True
         
-        return has_error
+    return has_error
 
 def main():
     print("Logs from your program will appear here!", file=sys.stderr)
@@ -54,10 +54,10 @@ def main():
   
     has_error = scan_file(file_contents)
     
+    print("EOF  null")
+    
     if has_error:
         exit(65)
-    
-    print("EOF  null")
 
 
 if __name__ == "__main__":
