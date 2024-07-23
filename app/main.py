@@ -115,6 +115,13 @@ def scan_file(contents):
                 print("DOT . null")
             else:
                 i -= 1
+        elif char.isalpha() or char == "_":
+            start = i
+            i += 1
+            while i < len(contents) and (contents[i].isalpha() or contents[i].isdigit() or contents[i] == "_"):
+                i += 1
+            name = contents[start:i]
+            print(f"IDENTIFIER {name} null")
         else:
             print(f"[line {line_number}] Error: Unexpected character: {char}", file=sys.stderr)
             has_error = True
