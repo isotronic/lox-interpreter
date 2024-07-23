@@ -34,7 +34,8 @@ def main():
         scan_file(file_contents)
         print("EOF  null")
     else:
-        raise ValueError("File is empty")
+        print("File is empty", file=sys.stderr)
+        exit(0)
 
 
 if __name__ == "__main__":
