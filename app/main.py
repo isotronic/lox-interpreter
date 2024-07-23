@@ -81,7 +81,7 @@ def scan_file(contents):
                 string_value = contents[start+1:i]
                 print(f"STRING \"{string_value}\" {string_value}")
             else:
-                print(f"[line {line_number}] Error: Unterminated string", file=sys.stderr)
+                print(f"[line {line_number}] Error: Unterminated string.", file=sys.stderr)
                 has_error = True
         else:
             print(f"[line {line_number}] Error: Unexpected character: {char}", file=sys.stderr)
