@@ -60,6 +60,13 @@ def scan_file(contents):
                 i += 1
             else:
                 print("GREATER > null")
+        elif char == "/":
+            if peek_next_char() == "/":
+                while i < len(contents) and contents[i] != "\n":
+                    i += 1
+                line_number += 1
+            else:
+                print("SLASH / null")
         else:
             print(f"[line {line_number}] Error: Unexpected character: {char}", file=sys.stderr)
             has_error = True
