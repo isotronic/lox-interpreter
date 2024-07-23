@@ -2,7 +2,14 @@ import sys
 import pathlib
 
 def scan_file(contents):
+    line_number = 1
+    has_error = False
+    
     for char in contents:
+        if char == "\n":
+            line_number += 1
+            continue
+        
         if char == "(":
             print("LEFT_PAREN ( null")
         elif char == ")":
@@ -23,6 +30,11 @@ def scan_file(contents):
             print("STAR * null")
         elif char == ".":
             print("DOT . null")
+        else:
+            print(f"[line {line_number}] Error: Unexpected character: {char}", file=sys.stderr)
+            has_error = True
+        
+        return has_error
 
 def main():
     print("Logs from your program will appear here!", file=sys.stderr)
@@ -40,8 +52,12 @@ def main():
 
     file_contents = pathlib.Path(filename).read_text()
   
-    scan_file(file_contents)
-    print("EOF  null")
+    has_error = scan_file(file_contents)
+    
+    if has_error:
+        exit(65)
+    else:
+        print("EOF  null")
 
 
 if __name__ == "__main__":
