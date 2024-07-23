@@ -102,20 +102,16 @@ def scan_file(contents):
             while i < len(contents) and (contents[i].isdigit() or (contents[i] == "." and not has_decimal)):
                 if contents[i] == ".":
                     has_decimal = True
-                    if i + 1 >= len(contents) or not contents[i+1].isdigit():
-                        print(f"NUMBER {contents[start:i]} {contents[start:i]}")
-                        i += 1
+                    if i + 1 >= len(contents) or not contents[i + 1].isdigit():
                         break
                 i += 1
-            if has_decimal and (i < len(contents) and not contents[i].isdigit()):
-                i = start + contents[start:i].find(".")
-            else:
-                if i < len(contents) and contents[i].isalpha():
-                    print(f"[line {line_number}] Error: Invalid number format.", file=sys.stderr)
-                    has_error = True
-                else:
-                    number = contents[start:i]
-                    print(f"NUMBER {number} {number}")
+            number = contents[start:i]
+            print(f"NUMBER {number} {number}")
+            
+            if i < len(contents) and contents[i] == ".":
+                print("DOT . null")
+            elif i < len(contents) and contents[i].isdigit():
+                i -= 1
         else:
             print(f"[line {line_number}] Error: Unexpected character: {char}", file=sys.stderr)
             has_error = True
