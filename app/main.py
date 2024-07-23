@@ -95,7 +95,6 @@ def scan_file(contents):
             else:
                 print(f"[line {line_number}] Error: Unterminated string.", file=sys.stderr)
                 has_error = True
-            i += 1
         elif char.isdigit() or (char == '.' and peek_next_char() and peek_next_char().isdigit()):
             start = i
             has_decimal = False
