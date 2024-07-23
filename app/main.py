@@ -4,10 +4,16 @@ import pathlib
 def scan_file(contents):
     line_number = 1
     has_error = False
+    i = 0
     
-    for char in contents:
+    def peek_next_char():
+        return contents[i + 1] if i < len(contents) - 1 else None
+    
+    while i < len(contents):
+        char = contents[i]
         if char == "\n":
             line_number += 1
+            i += 1
             continue
         
         if char == "(":
@@ -31,22 +37,34 @@ def scan_file(contents):
         elif char == ".":
             print("DOT . null")
         elif char == "=":
-            print("EQUAL = null")
-        elif char == "==":
-            print("EQUAL_EQUAL == null")
+            if peek_next_char() == "=":
+                print("EQUAL_EQUAL == null")
+                i += 1
+            else:
+                print("EQUAL = null")
+        elif char == "!":
+            if peek_next_char() == "=":
+                print("BANG_EQUAL != null")
+                i += 1
+            else:
+                print("BANG ! null")
         elif char == "<":
-            print("LESS < null")
+            if peek_next_char() == "=":
+                print("LESS_EQUAL <= null")
+                i += 1
+            else:
+                print("LESS < null")
         elif char == ">":
-            print("GREATER > null")
-        elif char == "<=":
-            print("LESS_EQUAL <= null")
-        elif char == ">=":
-            print("GREATER_EQUAL >= null")
-        elif char == "!=":
-            print("BANG_EQUAL != null")
+            if peek_next_char() == "=":
+                print("GREATER_EQUAL >= null")
+                i += 1
+            else:
+                print("GREATER > null")
         else:
             print(f"[line {line_number}] Error: Unexpected character: {char}", file=sys.stderr)
             has_error = True
+
+        i += 1
         
     return has_error
 
