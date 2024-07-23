@@ -96,22 +96,20 @@ def scan_file(contents):
                 print(f"[line {line_number}] Error: Unterminated string.", file=sys.stderr)
                 has_error = True
             i += 1
-        elif char.isdigit():
+        elif char.isdigit() or (char == '.' and peek_next_char() and peek_next_char().isdigit()):
             start = i
             has_decimal = False
-            while i < len(contents) and (contents[i].isdigit() or (contents[i] == "." and not has_decimal)):
+            if char == '.':
+                has_decimal = True
+            i += 1
+            while i < len(contents) and (contents[i].isdigit() or (contents[i] == '.' and not has_decimal)):
                 if contents[i] == ".":
                     has_decimal = True
-                    if i + 1 >= len(contents) or not contents[i + 1].isdigit():
-                        break
                 i += 1
             number = contents[start:i]
-            print(f"NUMBER {number} {number}")
-            
-            if i < len(contents) and contents[i] == ".":
-                print("DOT . null")
-            elif i < len(contents) and contents[i].isdigit():
-                i -= 1
+            print(f"NUMBER {number.rstrip('.')} {float(number)}")
+            if number.endswith('.') and (i >= len(contents) or not contents[i].isdigit()):
+                i += 1
         else:
             print(f"[line {line_number}] Error: Unexpected character: {char}", file=sys.stderr)
             has_error = True
