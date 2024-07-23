@@ -1,19 +1,6 @@
 import sys
 import pathlib
-
-RESERVED_WORDS = ["and", "class", "else", "false", "for", "fun", "if", "nil", "or", "print", "return", "super", "this", "true", "var", "while"]
-SINGLE_CHAR_TOKENS = {
-    '(': 'LEFT_PAREN',
-    ')': 'RIGHT_PAREN',
-    '{': 'LEFT_BRACE',
-    '}': 'RIGHT_BRACE',
-    ',': 'COMMA',
-    ';': 'SEMICOLON',
-    '+': 'PLUS',
-    '-': 'MINUS',
-    '*': 'STAR',
-    '.': 'DOT',
-}
+from constants import TokenType, SINGLE_CHAR_TOKENS, RESERVED_WORDS
 
 def scan_file(contents):
     """
@@ -55,7 +42,7 @@ def scan_file(contents):
         
         if i < len(contents):
             string_value = contents[start+1:i]
-            print(f"STRING \"{string_value}\" {string_value}")
+            print(f"{TokenType.STRING.name} \"{string_value}\" {string_value}")
         else:
             print(f"[line {line_number}] Error: Unterminated string.", file=sys.stderr)
             nonlocal has_error
@@ -84,11 +71,11 @@ def scan_file(contents):
                 has_decimal = True
             i += 1
         number = contents[start:i]
-        print(f"NUMBER {number.rstrip('.')} {float(number)}")
+        print(f"{TokenType.NUMBER.name} {number.rstrip('.')} {float(number)}")
         if number.endswith('.') and (i >= len(contents) or not contents[i].isdigit()):
-            print("DOT . null")
+            print(f"{TokenType.DOT.name} . null")
         elif i < len(contents) and contents[i] == ".":
-            print("DOT . null")
+            print(f"{TokenType.DOT.name} . null")
         else:
             i -= 1
         return i
@@ -111,7 +98,7 @@ def scan_file(contents):
         if name in RESERVED_WORDS:
             print(f"{name.upper()} {name} null")
         else:
-            print(f"IDENTIFIER {name} null")
+            print(f"{TokenType.IDENTIFIER.name} {name} null")
         return i - 1
     
     while i < len(contents):
@@ -124,38 +111,38 @@ def scan_file(contents):
             continue
         
         if char in SINGLE_CHAR_TOKENS:
-            print(f"{SINGLE_CHAR_TOKENS[char]} {char} null")
+            print(f"{SINGLE_CHAR_TOKENS[char].name} {char} null")
         elif char == "=":
             if peek_next_char(i) == "=":
-                print("EQUAL_EQUAL == null")
+                print(f"{TokenType.EQUAL_EQUAL.name} == null")
                 i += 1
             else:
-                print("EQUAL = null")
+                print(f"{TokenType.EQUAL.name} = null")
         elif char == "!":
             if peek_next_char(i) == "=":
-                print("BANG_EQUAL != null")
+                print(f"{TokenType.BANG_EQUAL.name} != null")
                 i += 1
             else:
-                print("BANG ! null")
+                print(f"{TokenType.BANG.name} ! null")
         elif char == "<":
             if peek_next_char(i) == "=":
-                print("LESS_EQUAL <= null")
+                print(f"{TokenType.LESS_EQUAL.name} <= null")
                 i += 1
             else:
-                print("LESS < null")
+                print(f"{TokenType.LESS.name} < null")
         elif char == ">":
             if peek_next_char(i) == "=":
-                print("GREATER_EQUAL >= null")
+                print(f"{TokenType.GREATER_EQUAL.name} >= null")
                 i += 1
             else:
-                print("GREATER > null")
+                print(f"{TokenType.GREATER.name} > null")
         elif char == "/":
             if peek_next_char(i) == "/":
                 while i < len(contents) and contents[i] != "\n":
                     i += 1
                 line_number += 1
             else:
-                print("SLASH / null")
+                print(f"{TokenType.SLASH.name} / null")
         elif char == "\"":
             i = handle_string(i)
         elif char.isdigit() or (char == '.' and peek_next_char() and peek_next_char().isdigit()):
@@ -196,7 +183,7 @@ def main():
   
     has_error = scan_file(file_contents)
     
-    print("EOF  null")
+    print(f"{TokenType.EOF.name} null")
     
     if has_error:
         exit(65)
