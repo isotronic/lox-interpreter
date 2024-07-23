@@ -94,7 +94,7 @@ def scan_file(contents):
                 print(f"[line {line_number}] Error: Invalid number format.", file=sys.stderr)
                 has_error = True
             else:
-                number = int(contents[start:i])
+                number = contents[start:i]
                 print(f"NUMBER {number} {number}")
         else:
             print(f"[line {line_number}] Error: Unexpected character: {char}", file=sys.stderr)
