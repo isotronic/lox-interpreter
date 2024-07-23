@@ -11,8 +11,10 @@ def scan_file(contents):
     
     while i < len(contents):
         char = contents[i]
-        if char == "\n":
-            line_number += 1
+        
+        if char.isspace():
+            if char == "\n":
+                line_number += 1
             i += 1
             continue
         
