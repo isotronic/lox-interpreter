@@ -29,7 +29,7 @@ def scan_file(contents):
     has_error = False
     i = 0
     
-    def peek_next_char():
+    def peek_next_char(i):
         """
         A function that returns the next character in the content if available.
         """
