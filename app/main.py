@@ -224,7 +224,7 @@ def main():
   
     has_error = scan_file(file_contents)
     
-    print(f"{TokenType.EOF.name} null")
+    print(f"{TokenType.EOF.name}  null")
     
     if has_error:
         exit(65)
