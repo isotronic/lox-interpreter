@@ -2,7 +2,7 @@
 
 This is my implementation, in Python, of the
 ["Build Your Own Build your own Interpreter" Challenge](https://app.codecrafters.io/courses/interpreter/overview).
-It is based on the book "Crafting Interpreters" by Robert Nystrom. For now, I have built the scanner and parser.
+It is based on the book "Crafting Interpreters" by Robert Nystrom. For now, I have built a scanner that translates input into tokens.
 
 **Note**: If you want to try the challenge yourself, head over to
 [codecrafters.io](https://codecrafters.io).
