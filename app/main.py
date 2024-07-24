@@ -53,148 +53,148 @@ def scan_file(contents):
     Returns:
         bool: True if there was an error during the scanning process, False otherwise.
     """
-    line_number = 1
-    has_error = False
-    i = 0
+    line_number = 1 # To track the current line number in the input file
+    has_error = False # Flag to indicate if any error occurred during scanning
+    index = 0 # Index to iterate through the file contents
     
-    def peek_next_char(i):
+    def peek_next_char(index):
         """
         A function that returns the next character in the content if available.
         """
-        return contents[i + 1] if i < len(contents) - 1 else None
+        return contents[index + 1] if index < len(contents) - 1 else None
     
-    def handle_string(i):
+    def handle_string(index):
         """
         A function that handles string tokens in the contents.
 
         Parameters:
-            i (int): The index to start processing the string from.
+            index (int): The index to start processing the string from.
 
         Returns:
             int: The index after processing the string.
         """
-        start = i
-        i += 1
-        while i < len(contents) and contents[i] != "\"":
-            if contents[i] == "\n":
+        start = index
+        index += 1 # Skip the opening quote
+        while index < len(contents) and contents[index] != "\"":
+            if contents[index] == "\n":
                 nonlocal line_number
-                line_number += 1
-            i += 1
+                line_number += 1 # Increment line number if newline character is within the string
+            index += 1
         
-        if i < len(contents):
-            string_value = contents[start+1:i]
+        if index < len(contents):
+            string_value = contents[start+1:index]
             print(f"{TokenType.STRING.name} \"{string_value}\" {string_value}")
         else:
             print(f"[line {line_number}] Error: Unterminated string.", file=sys.stderr)
             nonlocal has_error
             has_error = True
-        return i
+        return index
     
-    def handle_number(i):
+    def handle_number(index):
         """
         A function that handles number tokens in the contents.
 
         Parameters:
-            i (int): The starting index of the number in the string.
+            index (int): The starting index of the number in the string.
 
         Returns:
             int: The index after processing the number.
         """
-        start = i
-        has_decimal = False
-        if contents[i] == '.':
+        start = index
+        has_decimal = False # Flag to check if a decimal point has been encountered
+        if contents[index] == '.':
             has_decimal = True
-        i += 1
-        while i < len(contents) and (contents[i].isdigit() or (contents[i] == '.' and not has_decimal)):
-            if contents[i] == ".":
+        index += 1
+        while index < len(contents) and (contents[index].isdigit() or (contents[index] == '.' and not has_decimal)):
+            if contents[index] == ".":
                 if has_decimal:
-                    break
+                    break # Break if more than one decimal point is encountered
                 has_decimal = True
-            i += 1
-        number = contents[start:i]
+            index += 1
+        number = contents[start:index]
         print(f"{TokenType.NUMBER.name} {number.rstrip('.')} {float(number)}")
-        if number.endswith('.') and (i >= len(contents) or not contents[i].isdigit()):
+        if number.endswith('.') and (index >= len(contents) or not contents[index].isdigit()):
             print(f"{TokenType.DOT.name} . null")
-        elif i < len(contents) and contents[i] == ".":
+        elif index < len(contents) and contents[index] == ".":
             print(f"{TokenType.DOT.name} . null")
         else:
-            i -= 1
-        return i
+            index -= 1
+        return index
     
-    def handle_identifier_or_keyword(i):
+    def handle_identifier_or_keyword(index):
         """
         A function that handles identifiers or keywords in the contents.
 
         Parameters:
-            i (int): The starting index of the identifier or keyword in the string.
+            index (int): The starting index of the identifier or keyword in the string.
 
         Returns:
             int: The index after processing the identifier or keyword.
         """
-        start = i
-        i += 1
-        while i < len(contents) and (contents[i].isalpha() or contents[i].isdigit() or contents[i] == "_"):
-            i += 1
-        name = contents[start:i]
+        start = index
+        index += 1
+        while index < len(contents) and (contents[index].isalpha() or contents[index].isdigit() or contents[index] == "_"):
+            index += 1
+        name = contents[start:index]
         if name in RESERVED_WORDS:
             print(f"{name.upper()} {name} null")
         else:
             print(f"{TokenType.IDENTIFIER.name} {name} null")
-        return i - 1
+        return index - 1
     
-    while i < len(contents):
-        char = contents[i]
+    while index < len(contents):
+        char = contents[index]
         
         if char.isspace():
             if char == "\n":
                 line_number += 1
-            i += 1
+            index += 1
             continue
         
         if char in SINGLE_CHAR_TOKENS:
             print(f"{SINGLE_CHAR_TOKENS[char].name} {char} null")
         elif char == "=":
-            if peek_next_char(i) == "=":
+            if peek_next_char(index) == "=":
                 print(f"{TokenType.EQUAL_EQUAL.name} == null")
-                i += 1
+                index += 1
             else:
                 print(f"{TokenType.EQUAL.name} = null")
         elif char == "!":
-            if peek_next_char(i) == "=":
+            if peek_next_char(index) == "=":
                 print(f"{TokenType.BANG_EQUAL.name} != null")
-                i += 1
+                index += 1
             else:
                 print(f"{TokenType.BANG.name} ! null")
         elif char == "<":
-            if peek_next_char(i) == "=":
+            if peek_next_char(index) == "=":
                 print(f"{TokenType.LESS_EQUAL.name} <= null")
-                i += 1
+                index += 1
             else:
                 print(f"{TokenType.LESS.name} < null")
         elif char == ">":
-            if peek_next_char(i) == "=":
+            if peek_next_char(index) == "=":
                 print(f"{TokenType.GREATER_EQUAL.name} >= null")
-                i += 1
+                index += 1
             else:
                 print(f"{TokenType.GREATER.name} > null")
         elif char == "/":
-            if peek_next_char(i) == "/":
-                while i < len(contents) and contents[i] != "\n":
-                    i += 1
+            if peek_next_char(index) == "/":
+                while index < len(contents) and contents[index] != "\n":
+                    index += 1
                 line_number += 1
             else:
                 print(f"{TokenType.SLASH.name} / null")
         elif char == "\"":
-            i = handle_string(i)
+            index = handle_string(index)
         elif char.isdigit() or (char == '.' and peek_next_char() and peek_next_char().isdigit()):
-            i = handle_number(i)
+            index = handle_number(index)
         elif char.isalpha() or char == "_":
-            i = handle_identifier_or_keyword(i)
+            index = handle_identifier_or_keyword(index)
         else:
             print(f"[line {line_number}] Error: Unexpected character: {char}", file=sys.stderr)
             has_error = True
 
-        i += 1
+        index += 1
         
     return has_error
 
