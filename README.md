@@ -1,33 +1,8 @@
 [![progress-banner](https://backend.codecrafters.io/progress/interpreter/9ed40963-1d5c-4849-bacd-5cfa16350723)](https://app.codecrafters.io/users/codecrafters-bot?r=2qF)
 
-This is a starting point for Python solutions to the
+This is my implementation, in Python, of the
 ["Build Your Own Build your own Interpreter" Challenge](https://app.codecrafters.io/courses/interpreter/overview).
+It is based on the book "Crafting Interpreters" by Robert Nystrom. For now, I have built the scanner and parser.
 
-_Add a description of your course here_
-
-**Note**: If you're viewing this repo on GitHub, head over to
-[codecrafters.io](https://codecrafters.io) to try the challenge.
-
-# Passing the first stage
-
-The entry point for your `<fill_in_executable_name>` implementation is in
-`app/main.py`. Study and uncomment the relevant code, and push your changes to
-pass the first stage:
-
-```sh
-git add .
-git commit -m "pass 1st stage" # any msg
-git push origin master
-```
-
-Time to move on to the next stage!
-
-# Stage 2 & beyond
-
-Note: This section is for stages 2 and beyond.
-
-1. Ensure you have `python (3.12)` installed locally
-1. Run `./<fill_in_script_name>.sh` to run your program, which is implemented in
-   `app/main.py`.
-1. Commit your changes and run `git push origin master` to submit your solution
-   to CodeCrafters. Test output will be streamed to your terminal.
+**Note**: If you want to try the challenge yourself, head over to
+[codecrafters.io](https://codecrafters.io).
